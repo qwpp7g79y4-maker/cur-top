@@ -1,0 +1,216 @@
+.TH CUR-TOP 1 "2026-11-19" "cur-top 1.0.0" "User Commands"
+.SH NAME
+cur-top \- list the top costs in an AWS CUR 2.0 CSV
+.SH SYNOPSIS
+.nf
+Top CUR 2.0 costs from a local CSV. Reads files only, no network.
+
+Usage: cur-top [OPTIONS] <FILE>...
+
+Arguments:
+  <FILE>...  AWS CUR 2.0 `.csv` or `.csv.gz` files
+
+Options:
+      --amount <AMOUNT>  Cost column to sum. One of the three CUR 2.0 line-item cost columns [default: line_item_unblended_cost]
+      --top <TOP>        How many keys to list for each of service, usage type, and tag [default: 10]
+      --json             Print JSON instead of the text report
+      --md               Print a Markdown report (one table per group) instead of the text report
+      --output <FILE>    Write the report to this file instead of standard output
+      --quiet            Print nothing on standard error after a successful run. No context line
+      --verbose          On success, print one context line on standard error
+  -h, --help             Print help
+  -V, --version          Print version
+
+Exit codes: 0 ok, 2 input or usage error.
+.fi
+.SH DESCRIPTION
+cur-top reads one or more local AWS Cost and Usage Report 2.0 files and lists the largest services, usage types, and resource tags of the latest billing month.
+Each key shows the current amount, the amount of the previous calendar month, and the delta (current minus previous).
+.PP
+cur-top sums the amounts that are already in the file.
+It does not multiply
+.B line_item_unblended_rate
+by
+.BR line_item_usage_amount .
+It makes no network call and uses no AWS SDK.
+.PP
+The input is a
+.I .csv
+file or a gzip
+.I .csv.gz
+file.
+A file is read as gzip when its first bytes are the gzip magic 1f 8b, whatever its name.
+A name that ends in
+.I .gz
+must hold gzip: without the magic the file is rejected with "not gzip".
+The suffix check is case sensitive, so
+.I UPPER.CSV
+is rejected with "not a csv or csv.gz".
+Parquet and zip are rejected.
+A directory is rejected, a symlink is followed, and a file larger than 536870912 uncompressed bytes is rejected.
+A gzip file is rejected when one member's compressed bytes exceed the bytes that member unpacks by more than 1048576, when the file holds more than 40000 members
+("gzip overhead is larger than 1048576 bytes"),
+or when the compressed bytes of every member of every input file exceed 1073741824
+("gzip input is larger than 1073741824 bytes", exit 2, no report).
+Unpacked bytes from an earlier member do not raise the per-member overhead or the member cap.
+Measured on the release binary, one member of 20971497 unpacked bytes followed by 500000, 1000000, and 2000000 empty members of 20 bytes (10061192, 20061192, and 40061192 bytes) each exited 2 in 0.35 s (peak 2636 KB, 2688 KB, and 2896 KB).
+For these empty members of 20 bytes, the measured time stayed 0.35 s when the input grew by 4 times and by 4 times again.
+One CUR member, then stored members of 1048573 bytes (209711 empty stored blocks) and one shorter stored member, exited 0 at 268435456 bytes in 0.77 s (peak 2904 KB), at 536870912 bytes in 1.52 s (peak 2624 KB), and at 1073741824 bytes in 3.10 s (peak 2796 KB).
+The measured time grew by 1.97 times and by 4.03 times.
+A file of 1073741825 bytes exited 2 with "gzip input is larger than 1073741824 bytes" and no report in 3.12 s (peak 2848 KB).
+The same row in two files is counted twice.
+.PP
+The current month is the latest
+.B bill_billing_period_start_date
+month in the files.
+The previous month is the calendar month before it.
+Rows of other months stay out of the totals.
+.PP
+Each pair in
+.B resource_tags
+receives the full amount of its line.
+In a tag line shown in the report, a backslash in the key or in the value becomes two backslashes, and an
+.B =
+in the key becomes
+.BR \e= .
+An invalid amount, product code, usage type, billing timestamp, or tag cell is an error, and the error does not echo the cell.
+ASCII space, tab, CR and LF around an amount, a billing time, a product code, a usage type, or a tag cell are removed. A no-break space, a form feed, or a vertical tab is not removed and makes that field invalid. A column name in the header must match exactly.
+A monthly total that does not fit a 28-digit decimal exactly is an error ("amount total does not fit"), never a rounded amount.
+The month 0000-01 is valid and has no previous month: the report shows "previous: omitted".
+.PP
+In the text report, a space, a control, or an invisible character in a service or usage type key is shown as
+.BR \eu{..} ,
+a backslash as two backslashes, and the
+.B =
+of
+.BR amount= ,
+.BR previous= ,
+and
+.B delta=
+as
+.BR \e= .
+A usage error on standard error shows a control, direction-changing, or invisible character of your arguments as
+.B \eu{..}
+on one line, also in an argument that is not valid UTF-8.
+The option
+.B --json
+prints the keys as they are.
+The option
+.B --md
+prints Markdown tables with the same amounts; it cannot be combined with
+.B --json
+(exit 2).
+In an error,
+.B row N
+is the record of that file, counted from 1 after the header, and every file starts again at 1.
+.SH OPTIONS
+.TP
+.B --amount \fICOLUMN\fR
+The cost column to sum.
+One of
+.BR line_item_unblended_cost ,
+.BR line_item_blended_cost ,
+or
+.BR line_item_net_unblended_cost .
+The default is
+.BR line_item_unblended_cost .
+The column must exist in the file.
+.TP
+.B --top \fIN\fR
+How many keys to list for each of service, usage type, and tag.
+The keys with the largest current amount come first, then by key.
+.I N
+runs from 1 to 10000.
+The default is 10.
+Totals include every row of the two months, not only the listed keys.
+.TP
+.B --json
+Print one JSON document instead of the text report.
+The first key is
+.B schema_version
+(now 1); it changes when a field is removed, renamed, or changes meaning.
+A failing run prints no JSON.
+.TP
+.B --md
+Print the report as Markdown tables, with the same amounts as the text report, instead of the text report.
+Not allowed together with
+.BR --json :
+that is a usage error, exit 2.
+.TP
+.B --output \fIFILE\fR
+Write the report to this file instead of standard output; standard output stays empty.
+The report goes to a new file in the same directory and then replaces \fIFILE\fR by a rename, so \fIFILE\fR holds the whole report or is not changed.
+An existing file is replaced.
+A symbolic link at \fIFILE\fR is replaced as a link and never written through.
+.PP
+An existing pipe, socket, or device at \fIFILE\fR is refused with "not a regular file" (exit 2) and is left as it was.
+A missing directory is not created.
+A \fIFILE\fR that is also an input file is refused.
+If the report cannot be written (a missing directory, a directory as \fIFILE\fR, a full disk, no permission) the exit status is 2 and the message is "could not write report to" and the path.
+.TP
+.B --quiet
+Print nothing on standard error after a successful run, and no context line.
+The report on standard output and the exit codes are the same.
+Not allowed together with
+.BR --verbose :
+that is a usage error, exit 2.
+.TP
+.B --verbose
+On success, print one
+.B context:
+line on standard error, for example
+.BR "context: rows 3, service 2, usage_type 2, tag 1" ,
+with the number of rows read and of keys listed in each table.
+The report on standard output and the exit codes are the same, and an error prints no context line.
+Not allowed together with
+.BR --quiet .
+.TP
+.B -h, --help
+Print the usage text.
+.TP
+.B -V, --version
+Print the version.
+.SH EXIT STATUS
+.TP
+.B 0
+The report was written.
+.TP
+.B 2
+An input or usage error: an unreadable or unsupported file, an invalid cell, a missing column, or a bad option.
+Also 2: the output cannot be written (closed or full standard output, also for the help and version text); the message is "could not write output".
+The message goes to standard error.
+.TP
+.B 130
+SIGINT (Ctrl-C) on Unix, while the files are read: no report, nothing on standard output, and the line "cur-top: interrupted by SIGINT" on standard error.
+A SIGINT that arrives after the report is complete does not cut it.
+.SH NOTES
+Memory use is about 24 times the input size when almost every row has its own key (a 13 MB file with 300000 unique keys used 314 MiB).
+The limit of 536870912 bytes applies to the input, not to the state kept for the keys.
+.PP
+A truncated gzip file, a wrong CRC, and bytes after the last gzip member all fail with "could not read file" and no report.
+A CSV file that is cut off inside the last field of its last row, without a final newline, can be summed without an error when the amount is the last column: a CSV has no checksum.
+.PP
+A file is UTF-8 text; a leading BOM and CRLF line ends are allowed.
+The billing time is a UTC time with a Z, for example 2026-11-01T00:00:00Z, with 1 to 6 fraction digits when there is a fraction.
+A date alone, an offset, a lower case t or z, and 7 fraction digits are invalid.
+A quoted cell followed by text, as in "A"x, is read as the value Ax.
+Standard input is not read: \- is a file name, and /dev/stdin is rejected.
+A file name must end in .csv or .gz in lower case.
+.PP
+A single cell is held in memory whole: a product code of 400 MiB was refused after using 913 MiB.
+.PP
+A standard output that was closed before the program started is recognized on Linux only.
+That check (src/stdout_probe.rs) and the SIGINT handler (src/interrupt.rs) hold the only unsafe code of the project; the library forbids unsafe code.
+.PP
+A standard output that is open for reading only (1<file) is not recognized: on Linux the run exits 0 and writes nothing.
+.PP
+The Linux release binary built with glibc needs GLIBC_2.34 or newer.
+A musl build works.
+.SH EXAMPLES
+.nf
+cur-top examples/cur.csv
+cur-top --json --top 5 export-00001.csv.gz
+cur-top --amount line_item_net_unblended_cost jan.csv feb.csv
+.fi
+.SH SEE ALSO
+README.md and QUALITY.md in the source tree.

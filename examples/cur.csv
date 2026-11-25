@@ -1,0 +1,4 @@
+bill_billing_period_start_date,line_item_product_code,line_item_usage_type,line_item_unblended_cost,line_item_unblended_rate,line_item_usage_amount,resource_tags
+2026-11-01T00:00:00Z,AmazonEC2,BoxUsage:t3.micro,3.50,0.0104,336,"{""user_team"":""platform""}"
+2026-11-01T00:00:00Z,AmazonS3,TimedStorage-ByteHrs,1.00,0.023,43,"{""user_team"":""platform""}"
+2026-10-01T00:00:00Z,AmazonEC2,BoxUsage:t3.micro,1.00,0.0104,96,"{""user_team"":""platform""}"

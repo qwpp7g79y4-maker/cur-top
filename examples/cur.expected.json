@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "dictionary": "https://docs.aws.amazon.com/cur/latest/userguide/table-dictionary-cur2.html",
+  "dictionary_date": "2026-11-09",
+  "amount_column": "line_item_unblended_cost",
+  "month": "2026-11",
+  "previous_month": "2026-10",
+  "previous_month_present": true,
+  "rows": 3,
+  "rows_without_amount": 0,
+  "rows_without_tags": 0,
+  "rows_outside_months": 0,
+  "service": [
+    {
+      "key": "AmazonEC2",
+      "amount": "3.50",
+      "previous": "1.00",
+      "delta": "2.50"
+    },
+    {
+      "key": "AmazonS3",
+      "amount": "1.00",
+      "previous": "0.00",
+      "delta": "1.00"
+    }
+  ],
+  "usage_type": [
+    {
+      "key": "BoxUsage:t3.micro",
+      "amount": "3.50",
+      "previous": "1.00",
+      "delta": "2.50"
+    },
+    {
+      "key": "TimedStorage-ByteHrs",
+      "amount": "1.00",
+      "previous": "0.00",
+      "delta": "1.00"
+    }
+  ],
+  "tag": [
+    {
+      "key": "user_team=platform",
+      "amount": "4.50",
+      "previous": "1.00",
+      "delta": "3.50"
+    }
+  ],
+  "total": {
+    "amount": "4.50",
+    "previous": "1.00",
+    "delta": "3.50"
+  }
+}

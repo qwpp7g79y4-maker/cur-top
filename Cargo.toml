@@ -1,0 +1,29 @@
+[package]
+name = "cur-top"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.85"
+authors = ["PEPAI <pep_ai@icloud.com>"]
+license = "MIT OR Apache-2.0"
+description = "Offline top costs from an AWS CUR 2.0 CSV"
+readme = "README.md"
+repository = "https://github.com/qwpp7g79y4-maker/cur-top"
+homepage = "https://www.pepai.nl"
+keywords = ["aws", "cur", "cost", "csv", "cli"]
+categories = ["command-line-utilities", "development-tools"]
+exclude = ["/.github/", "/.gitattributes", "/scripts/", "/blueprint.md"]
+
+[lib]
+name = "cur_top"
+path = "src/lib.rs"
+
+[[bin]]
+name = "cur-top"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+csv = "1.3"
+flate2 = { version = "1.0", default-features = false, features = ["rust_backend"] }
+rust_decimal = "1.43.0"
+serde_json = { version = "1", features = ["preserve_order"] }

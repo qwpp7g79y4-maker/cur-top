@@ -1,0 +1,25 @@
+cur-top
+dictionary: https://docs.aws.amazon.com/cur/latest/userguide/table-dictionary-cur2.html
+read: 2026-11-09
+amount: line_item_unblended_cost
+month: 2026-11
+previous: 2026-10
+previous_month_present: yes
+rows: 3
+rows_without_amount: 0
+rows_without_tags: 0
+rows_outside_months: 0
+
+service
+AmazonEC2 amount=3.50 previous=1.00 delta=2.50
+AmazonS3 amount=1.00 previous=0.00 delta=1.00
+
+usage_type
+BoxUsage:t3.micro amount=3.50 previous=1.00 delta=2.50
+TimedStorage-ByteHrs amount=1.00 previous=0.00 delta=1.00
+
+tag
+user_team=platform amount=4.50 previous=1.00 delta=3.50
+
+totals
+amount=4.50 previous=1.00 delta=3.50
