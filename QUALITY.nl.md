@@ -1,45 +1,23 @@
 # Kwaliteit
 
-Deze commit wijzigt alleen documentatie; de codecommit is 1fc2cb1. Van de controles hieronder draaiden alleen `cargo fmt --check` en `cargo test --locked --offline -j 2 -- --test-threads 2` daarop (2026-11-24); elke andere controle draaide op de eerdere codecommit 83ad5d9 (2026-11-20) en is niet opnieuw uitgevoerd: niet uitgevoerd op 1fc2cb1.
+Verslag van 2026-11-25. Geteste commit: `3cc300c` (`3cc300c8c302d468c265172468afbdfa60fc4701`), in een schone worktree van `origin/main`. Toolchain: rustc 1.99.0 en cargo 1.99.0 (stable). Machine: Linux 7.2.15. Elke controle hieronder draaide op 3cc300c; een controle die niet in de tabel staat is door deze meting niet uitgevoerd ("niet uitgevoerd"). Geen tag, geen push, geen publicatie.
 
-Reeks: 168 geslaagd, 1 genegeerd, 0 mislukt (op 1fc2cb1; Linux, `cargo test`, debug; elf van de tests draaien alleen op Linux).
-
-Verslag van 2026-11-20. Toolchains: rustc 1.99.0 en cargo 1.99.0 (stable), en cargo 1.85.1 (de minimaal ondersteunde versie, `+1.85`). Machine: Linux, AMD Ryzen 9 5950X. Geteste commit: `83ad5d99dde1847b5c25929cad7d86d52518b20e`. Elke controle hieronder, behalve de twee bovenaan, draaide op die commit; de commits erna wijzigen alleen documenten (`*.md`, `man/`, `examples/`-bestanden die geen code zijn). Geen tag, niet gepubliceerd. Elke opdracht draaide onder een geheugengrens van 16 GB, met `-j 2` en `--test-threads 2`.
+Reeks: 168 geslaagd, 1 genegeerd, 0 mislukt (op 3cc300c; Linux, `cargo test --locked`, debug en release; elf van de tests draaien alleen op Linux).
 
 ## Opdrachten
-
-Op 1fc2cb1 draaiden alleen de eerste rij van deze tabel en de rij `cargo test` (debug); de andere rijen zijn uitkomsten op 83ad5d9 en zijn niet uitgevoerd op 1fc2cb1. De wijziging in 1fc2cb1 is dat het hardlink-deel van `an_input_file_as_output_is_refused_and_not_overwritten` alleen op Unix draait.
 
 | Opdracht | Exit |
 | --- | ---: |
 | `cargo fmt --check` | 0 |
-| `cargo clippy --locked --offline -j 2 --all-targets -- -D warnings` | 0 |
-| `cargo +1.85 clippy --locked --offline -j 2 --all-targets -- -D warnings` | 0 |
-| `cargo check --locked --offline -j 2 --tests --target x86_64-pc-windows-gnu` | 0 |
-| `cargo check --locked --offline -j 2 --tests --target x86_64-apple-darwin` | 0 |
-| `cargo clippy --locked --offline -j 2 --all-targets --target x86_64-pc-windows-gnu -- -D warnings` | 0 |
-| `cargo clippy --locked --offline -j 2 --all-targets --target x86_64-apple-darwin -- -D warnings` | 0 |
-| `cargo test --locked --offline -j 2 -- --test-threads 2` | 0 |
-| `cargo test --locked --offline -j 2 --release -- --test-threads 2` | 0 |
-| `cargo +1.85 test --locked --offline -j 2 -- --test-threads 2` | 0 |
-| `cargo package --locked --offline --allow-dirty --no-verify --list` | 0 |
-| `cargo build --release --locked --offline -j 2` | 0 |
-| `cargo package --offline --allow-dirty`, daarna `cargo test --offline -j 2 -- --test-threads 2` in de uitgepakte `.crate` (een lege map) | 0 (168 geslaagd, 0 mislukt, 1 genegeerd) |
-| `cargo about generate --offline --locked about.hbs -o <file>` | 0 (4 licentiegroepen) |
-| `groff -ww -z -man -Tutf8 man/cur-top.1` | 0, geen melding |
-| `bash scripts/check-glibc.sh target/release/cur-top 2.34` | 0 (highest symbol GLIBC_2.34) |
-| `bash scripts/check-glibc.sh target/release/cur-top 2.33` (moet falen) | 1 |
-| `cargo test --release --locked --offline -j 2 --test quality -- --ignored --exact quality_benchmark_100_mb` | 0 |
-| `cargo deny --locked check licenses` | 0 |
-| `cargo audit --no-fetch` | 0 |
+| `cargo clippy --all-targets --locked -- -D warnings` | 0 |
+| `cargo test --locked` | 0 (168 geslaagd, 0 mislukt, 1 genegeerd) |
+| `cargo test --release --locked` | 0 (168 geslaagd, 0 mislukt, 1 genegeerd) |
 
-De runs van `cargo check` en `cargo clippy` voor de doelen Windows en macOS controleren en linten de code op types. Ze draaien de tests niet.
-
-`cargo package --list` heeft 47 paden (geteld met de bestanden van dit verslag erbij): `Cargo.toml`, `Cargo.toml.orig`, `Cargo.lock`, `.cargo_vcs_info.json`, `.gitignore`, `build.rs`, `about.hbs`, `about.toml`, `CHANGELOG.md`, `CONTRIBUTING.md`, beide licenties, `QUALITY.md`, `QUALITY.nl.md`, `README.md`, `README.nl.md`, `SECURITY.md`, `deny.toml`, de bestanden van `examples/`, `man/cur-top.1`, `src/*.rs` en `tests/*.rs`. Er zit geen `.github/` in, geen `scripts/` en geen bestand dat alleen voor lokaal werk is.
+Niet uitgevoerd op 3cc300c: `cargo +1.85` (clippy en test), de typecontrole en lint voor Windows en macOS, `cargo package`, `cargo build --release`, `cargo about`, `groff`, `scripts/check-glibc.sh`, `quality_benchmark_100_mb`, `cargo deny`, `cargo audit`. Hun uitkomsten in de secties hieronder komen uit eerdere verslagen (per sectie gedateerd) en zijn hier niet herhaald: niet uitgevoerd op 3cc300c.
 
 ## Testresultaat per doel
 
-Debug (`cargo test --locked --offline -j 2 -- --test-threads 2`) en release (hetzelfde met `--release`) geven dezelfde aantallen. `cargo +1.85 test` in debug geeft ze ook.
+Debug (`cargo test --locked`) en release (`cargo test --release --locked`) geven dezelfde aantallen.
 
 | Doel | Geslaagd | Mislukt | Genegeerd |
 | --- | ---: | ---: | ---: |
@@ -64,15 +42,13 @@ De 168 is het aantal op Linux. Tien tests in `tests/cli.rs` en één in `tests/v
 De genegeerde test is `quality_benchmark_100_mb`.
 
 ## Niet uitgevoerd
-
-- `quality_benchmark_100_mb` (`#[ignore]`) hoort bij de reeks niet; hij is apart gedraaid (zie "100 MiB"). Opdracht: `cargo test --release --locked --test quality -- --ignored --exact quality_benchmark_100_mb`.
-- Een fuzzcampagne.
-- Een mutatierun.
-- GitHub Actions. De workflows zijn niet gestart; ze waren rood door een betaalprobleem, dat los staat van de getallen hierboven.
-- Windows en macOS. Alleen de typecontrole en de lint hierboven draaiden. Tests die een symlink of een apparaatbestand nodig hebben zijn alleen voor Unix, en tests die een gesloten of volle standaarduitvoer, een bestandsnaam of argument met bytes die geen UTF-8 zijn, of een bestandsnaam met een stuurteken nodig hebben, draaien alleen op Linux.
-- De releaseworkflow (`.github/workflows/release.yml`). Hij start op een `v*`-tag; de crate heeft geen tag en is niet gepubliceerd, dus hij heeft niet gedraaid.
-- De glibc-controle in CI (job `glibc`). Het script draaide op deze machine; de job zelf niet.
-- `git commit`, `git push`, `git tag` en `cargo publish`.
+- `quality_benchmark_100_mb` (`#[ignore]`): niet uitgevoerd. Opdracht: `cargo test --release --locked --test quality -- --ignored --exact quality_benchmark_100_mb`.
+- `cargo +1.85` (minimaal ondersteunde versie): niet uitgevoerd.
+- Typecontrole, lint en tests voor Windows en macOS: niet uitgevoerd.
+- `cargo package`, `cargo build --release`, `cargo about`, `groff`, `scripts/check-glibc.sh`, `cargo deny`, `cargo audit`: niet uitgevoerd.
+- Een fuzz-campagne en een mutatierun: niet uitgevoerd.
+- GitHub Actions en de release-workflow: door deze meting niet uitgevoerd.
+- `git push`, `git tag` en `cargo publish`: niet gedaan.
 
 ## 100 MiB
 

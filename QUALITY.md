@@ -1,45 +1,23 @@
 # Quality
 
-This commit changes documentation only; the code commit is 1fc2cb1. Of the checks below, only `cargo fmt --check` and `cargo test --locked --offline -j 2 -- --test-threads 2` ran on it (2026-11-24); every other check was run on the earlier code commit 83ad5d9 (2026-11-20) and is not run again: not run on 1fc2cb1.
+Record of 2026-11-25. Tested commit: `3cc300c` (`3cc300c8c302d468c265172468afbdfa60fc4701`), in a clean worktree of `origin/main`. Toolchain: rustc 1.99.0 and cargo 1.99.0 (stable). Host: Linux 7.2.15. Every check below ran on 3cc300c; a check that is not in the table was not run by this measurement ("not run"). No tag, no push, no publish.
 
-Suite: 168 passed, 1 ignored, 0 failed (on 1fc2cb1; Linux, `cargo test`, debug; eleven of the tests run on Linux only).
-
-Record of 2026-11-20. Toolchains: rustc 1.99.0 and cargo 1.99.0 (stable), and cargo 1.85.1 (the minimum supported version, `+1.85`). Host: Linux, AMD Ryzen 9 5950X. Tested commit: `83ad5d99dde1847b5c25929cad7d86d52518b20e`. Every check below, except the two named at the top, ran on that commit; the commits after it change documents only (`*.md`, `man/`, `examples/` files that are not code). No tag, no publish. Every command ran under a memory limit of 16 GB, with `-j 2` and `--test-threads 2`.
+Suite: 168 passed, 1 ignored, 0 failed (on 3cc300c; Linux, `cargo test --locked`, debug and release; eleven of the tests run on Linux only).
 
 ## Commands
-
-On 1fc2cb1 only the first row of this table and the `cargo test` row (debug) were run; the other rows are results on 83ad5d9 and are "not run" on 1fc2cb1. The change in 1fc2cb1 is that the hard-link part of `an_input_file_as_output_is_refused_and_not_overwritten` runs on Unix only.
 
 | Command | Exit |
 | --- | ---: |
 | `cargo fmt --check` | 0 |
-| `cargo clippy --locked --offline -j 2 --all-targets -- -D warnings` | 0 |
-| `cargo +1.85 clippy --locked --offline -j 2 --all-targets -- -D warnings` | 0 |
-| `cargo check --locked --offline -j 2 --tests --target x86_64-pc-windows-gnu` | 0 |
-| `cargo check --locked --offline -j 2 --tests --target x86_64-apple-darwin` | 0 |
-| `cargo clippy --locked --offline -j 2 --all-targets --target x86_64-pc-windows-gnu -- -D warnings` | 0 |
-| `cargo clippy --locked --offline -j 2 --all-targets --target x86_64-apple-darwin -- -D warnings` | 0 |
-| `cargo test --locked --offline -j 2 -- --test-threads 2` | 0 |
-| `cargo test --locked --offline -j 2 --release -- --test-threads 2` | 0 |
-| `cargo +1.85 test --locked --offline -j 2 -- --test-threads 2` | 0 |
-| `cargo package --locked --offline --allow-dirty --no-verify --list` | 0 |
-| `cargo build --release --locked --offline -j 2` | 0 |
-| `cargo package --offline --allow-dirty`, then `cargo test --offline -j 2 -- --test-threads 2` in the unpacked `.crate` (an empty directory) | 0 (168 passed, 0 failed, 1 ignored) |
-| `cargo about generate --offline --locked about.hbs -o <file>` | 0 (4 license groups) |
-| `groff -ww -z -man -Tutf8 man/cur-top.1` | 0, no message |
-| `bash scripts/check-glibc.sh target/release/cur-top 2.34` | 0 (highest symbol GLIBC_2.34) |
-| `bash scripts/check-glibc.sh target/release/cur-top 2.33` (must fail) | 1 |
-| `cargo test --release --locked --offline -j 2 --test quality -- --ignored --exact quality_benchmark_100_mb` | 0 |
-| `cargo deny --locked check licenses` | 0 |
-| `cargo audit --no-fetch` | 0 |
+| `cargo clippy --all-targets --locked -- -D warnings` | 0 |
+| `cargo test --locked` | 0 (168 passed, 0 failed, 1 ignored) |
+| `cargo test --release --locked` | 0 (168 passed, 0 failed, 1 ignored) |
 
-The `cargo check` and `cargo clippy` runs for the Windows and macOS targets type-check and lint the code. They do not run the tests.
-
-`cargo package --list` has 47 paths (counted with the files of this record in place): `Cargo.toml`, `Cargo.toml.orig`, `Cargo.lock`, `.cargo_vcs_info.json`, `.gitignore`, `build.rs`, `about.hbs`, `about.toml`, `CHANGELOG.md`, `CONTRIBUTING.md`, both licenses, `QUALITY.md`, `QUALITY.nl.md`, `README.md`, `README.nl.md`, `SECURITY.md`, `deny.toml`, the files of `examples/`, `man/cur-top.1`, `src/*.rs`, and `tests/*.rs`. It has no `.github/`, no `scripts/`, and no file that is only for local work.
+Not run on 3cc300c: `cargo +1.85` (clippy and test), the Windows and macOS type check and lint, `cargo package`, `cargo build --release`, `cargo about`, `groff`, `scripts/check-glibc.sh`, `quality_benchmark_100_mb`, `cargo deny`, `cargo audit`. Their results in the sections below are from earlier records (dated in each section) and are not repeated here: not run on 3cc300c.
 
 ## Test result per target
 
-Debug (`cargo test --locked --offline -j 2 -- --test-threads 2`) and release (the same with `--release`) give the same counts. `cargo +1.85 test` in debug gives them too.
+Debug (`cargo test --locked`) and release (`cargo test --release --locked`) give the same counts.
 
 | Target | Passed | Failed | Ignored |
 | --- | ---: | ---: | ---: |
@@ -64,15 +42,13 @@ The 168 is the count on Linux. Ten tests in `tests/cli.rs` and one in `tests/ver
 The ignored test is `quality_benchmark_100_mb`.
 
 ## Not run
-
-- `quality_benchmark_100_mb` (`#[ignore]`) is not part of the suite; it ran separately (see "100 MiB"). Command: `cargo test --release --locked --test quality -- --ignored --exact quality_benchmark_100_mb`.
-- A fuzz campaign.
-- A mutation run.
-- GitHub Actions. The workflows were not started; they have been red from billing, which is separate from the numbers above.
-- Windows and macOS. Only the type check and the lint above ran. Tests that need a symlink or a device file are Unix only, and tests that need a closed or full standard output, a file name or an argument with bytes that are not UTF-8, a file name with a control character, or `/dev/stdin` are Linux only.
-- The release workflow (`.github/workflows/release.yml`). It starts on a `v*` tag; the crate has no tag and is not published, so it has not run.
-- The glibc check in CI (`glibc` job). The script ran on this host; the job itself did not run.
-- `git commit`, `git push`, `git tag`, and `cargo publish`.
+- `quality_benchmark_100_mb` (`#[ignore]`): not run. Command: `cargo test --release --locked --test quality -- --ignored --exact quality_benchmark_100_mb`.
+- `cargo +1.85` (minimum supported version): not run.
+- Windows and macOS type check, lint and tests: not run.
+- `cargo package`, `cargo build --release`, `cargo about`, `groff`, `scripts/check-glibc.sh`, `cargo deny`, `cargo audit`: not run.
+- A fuzz campaign and a mutation run: not run.
+- GitHub Actions and the release workflow: not run by this measurement.
+- `git push`, `git tag`, and `cargo publish`: not done.
 
 ## 100 MiB
 
