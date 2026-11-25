@@ -13,7 +13,7 @@ Reeks: 168 geslaagd, 1 genegeerd, 0 mislukt (op 3cc300c; Linux, `cargo test --lo
 | `cargo test --locked` | 0 (168 geslaagd, 0 mislukt, 1 genegeerd) |
 | `cargo test --release --locked` | 0 (168 geslaagd, 0 mislukt, 1 genegeerd) |
 
-Gemeten op 2026-11-25 met Rust 1.85 (rustc 1.85.1, cargo 1.85.1), op de code van 3cc300c, vanuit een checkout op 1a21ec7 (die commit wijzigt alleen de verslagen): `cargo +1.85 fmt --check` exit 0; `cargo +1.85 clippy --all-targets --locked -- -D warnings` exit 0; `cargo +1.85 test --locked` exit 0 (168 geslaagd, 0 mislukt, 1 genegeerd, debug). `cargo +1.85 test --release --locked` en `cargo +1.85 build --release`: niet uitgevoerd.
+Gemeten op 2026-11-25 met Rust 1.85 (rustc 1.85.1, cargo 1.85.1), op de code van 3cc300c, vanuit een checkout op 1a21ec7 (die commit wijzigt alleen de verslagen): `cargo +1.85 fmt --check` exit 0; `cargo +1.85 clippy --all-targets --locked -- -D warnings` exit 0; `cargo +1.85 test --locked` exit 0 (168 geslaagd, 0 mislukt, 1 genegeerd, debug). `cargo +1.85 test --release --locked` exit 0 (168 geslaagd, 0 mislukt, 1 genegeerd, release, 2026-11-25). `cargo +1.85 build --release`: niet uitgevoerd.
 
 Niet uitgevoerd op 3cc300c: de typecontrole en lint voor Windows en macOS, `cargo package`, `cargo build --release`, `cargo about`, `groff`, `scripts/check-glibc.sh`, `quality_benchmark_100_mb`, `cargo deny`, `cargo audit`. Hun uitkomsten in de secties hieronder komen uit eerdere verslagen (per sectie gedateerd) en zijn hier niet herhaald: niet uitgevoerd op 3cc300c.
 
@@ -45,7 +45,7 @@ De genegeerde test is `quality_benchmark_100_mb`.
 
 ## Niet uitgevoerd
 - `quality_benchmark_100_mb` (`#[ignore]`): niet uitgevoerd. Opdracht: `cargo test --release --locked --test quality -- --ignored --exact quality_benchmark_100_mb`.
-- `cargo +1.85` (minimaal ondersteunde versie): `fmt --check`, `clippy` en `test --locked` (debug) draaiden op 2026-11-25 en slaagden (zie "Opdrachten"); releasetest en releasebuild: niet uitgevoerd.
+- `cargo +1.85` (minimaal ondersteunde versie): `fmt --check`, `clippy` en `test --locked` (debug) en `test --release --locked` draaiden op 2026-11-25 en slaagden (zie "Opdrachten"); releasebuild: niet uitgevoerd.
 - Typecontrole, lint en tests voor Windows en macOS: niet uitgevoerd.
 - `cargo package`, `cargo build --release`, `cargo about`, `groff`, `scripts/check-glibc.sh`, `cargo deny`, `cargo audit`: niet uitgevoerd.
 - Een fuzz-campagne en een mutatierun: niet uitgevoerd.

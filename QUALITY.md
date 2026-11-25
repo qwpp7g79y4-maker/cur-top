@@ -13,7 +13,7 @@ Suite: 168 passed, 1 ignored, 0 failed (on 3cc300c; Linux, `cargo test --locked`
 | `cargo test --locked` | 0 (168 passed, 0 failed, 1 ignored) |
 | `cargo test --release --locked` | 0 (168 passed, 0 failed, 1 ignored) |
 
-Measured on 2026-11-25 with Rust 1.85 (rustc 1.85.1, cargo 1.85.1), on the code of 3cc300c, from a checkout at 1a21ec7 (that commit changes only the records): `cargo +1.85 fmt --check` exit 0; `cargo +1.85 clippy --all-targets --locked -- -D warnings` exit 0; `cargo +1.85 test --locked` exit 0 (168 passed, 0 failed, 1 ignored, debug). `cargo +1.85 test --release --locked` and `cargo +1.85 build --release`: not run.
+Measured on 2026-11-25 with Rust 1.85 (rustc 1.85.1, cargo 1.85.1), on the code of 3cc300c, from a checkout at 1a21ec7 (that commit changes only the records): `cargo +1.85 fmt --check` exit 0; `cargo +1.85 clippy --all-targets --locked -- -D warnings` exit 0; `cargo +1.85 test --locked` exit 0 (168 passed, 0 failed, 1 ignored, debug). `cargo +1.85 test --release --locked` exit 0 (168 passed, 0 failed, 1 ignored, release, 2026-11-25). `cargo +1.85 build --release`: not run.
 
 Not run on 3cc300c: the Windows and macOS type check and lint, `cargo package`, `cargo build --release`, `cargo about`, `groff`, `scripts/check-glibc.sh`, `quality_benchmark_100_mb`, `cargo deny`, `cargo audit`. Their results in the sections below are from earlier records (dated in each section) and are not repeated here: not run on 3cc300c.
 
@@ -45,7 +45,7 @@ The ignored test is `quality_benchmark_100_mb`.
 
 ## Not run
 - `quality_benchmark_100_mb` (`#[ignore]`): not run. Command: `cargo test --release --locked --test quality -- --ignored --exact quality_benchmark_100_mb`.
-- `cargo +1.85` (minimum supported version): `fmt --check`, `clippy` and `test --locked` (debug) ran on 2026-11-25 and passed (see "Commands"); release test and release build: not run.
+- `cargo +1.85` (minimum supported version): `fmt --check`, `clippy` and `test --locked` (debug) and `test --release --locked` ran on 2026-11-25 and passed (see "Commands"); release build: not run.
 - Windows and macOS type check, lint and tests: not run.
 - `cargo package`, `cargo build --release`, `cargo about`, `groff`, `scripts/check-glibc.sh`, `cargo deny`, `cargo audit`: not run.
 - A fuzz campaign and a mutation run: not run.
