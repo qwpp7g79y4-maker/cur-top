@@ -31,6 +31,9 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 #[derive(Parser)]
 #[command(
     name = "cur-top",
+    // Without this clap takes the usage name from argv[0], which is
+    // "cur-top.exe" on Windows and no longer matches man/cur-top.1.
+    bin_name = "cur-top",
     version = VERSION,
     about = "Top CUR 2.0 costs from a local CSV. Reads files only, no network.",
     after_help = "Exit codes: 0 ok, 2 input or usage error."
