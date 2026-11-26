@@ -11,7 +11,7 @@ repository = "https://github.com/qwpp7g79y4-maker/cur-top"
 homepage = "https://www.pepai.nl"
 keywords = ["aws", "cur", "cost", "csv", "cli"]
 categories = ["command-line-utilities", "development-tools"]
-exclude = ["/.github/", "/.gitattributes", "/scripts/", "/blueprint.md"]
+exclude = ["/.github/", "/.gitattributes", "/scripts/", "/blueprint.md", "*-plugin/"]
 
 [lib]
 name = "cur_top"
