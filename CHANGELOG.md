@@ -73,8 +73,6 @@ Changes made after 2026-11-19; the version number did not change.
 - `.github/dependabot.yml`. The CI jobs keep no credentials after checkout, have a time limit on the test jobs, and run every test after a failure (`--no-fail-fast`).
 - `man/cur-top.1`, and `tests/handbook_help.rs`, which checks that the man page holds the `--help` text and the same long options, also in its OPTIONS section.
 
-This version is not published and has no git tag.
-
 ## [0.1.0] - 2026-11-09
 
 ### Added
@@ -82,5 +80,3 @@ This version is not published and has no git tag.
 - `cur-top` reads a local AWS CUR 2.0 CSV or CSV gzip and lists top costs by service, usage type, and resource tag.
 - The delta is the latest billing month minus the previous calendar month.
 - Amounts are the cost column already in the file. The tool does not multiply a rate by usage.
-
-This version is not published and has no git tag.

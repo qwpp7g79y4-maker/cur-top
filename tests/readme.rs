@@ -226,8 +226,8 @@ fn licenses_changelog_and_cargo_metadata() {
     assert!(apache.contains("Copyright 2026 PEPAI"));
     let changelog = read("CHANGELOG.md");
     assert!(changelog.contains("## [0.1.0] - 2026-11-09"));
-    assert!(changelog.contains("not published"));
-    assert!(changelog.contains("no git tag"));
+    assert!(!changelog.contains("not published"));
+    assert!(!changelog.contains("no git tag"));
     let cargo = read("Cargo.toml");
     assert!(cargo.contains("MIT OR Apache-2.0"));
     assert!(cargo.contains("PEPAI <pep_ai@icloud.com>"));
