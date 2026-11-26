@@ -60,15 +60,15 @@ totals
 amount=4.50 previous=1.00 delta=3.50
 ```
 
-## Aan de slag in 5 minuten
+## Quickstart in 5 minutes
 
-Korte route in het Nederlands; de volledige Nederlandse tekst staat in [README.nl.md](README.nl.md).
+Short route; the full Dutch text is in [README.nl.md](README.nl.md).
 
-1. Installeer met `cargo install --locked --path .` (Rust 1.85 of nieuwer).
-2. Neem een CUR 2.0-bestand (`.csv` of `.csv.gz`), of gebruik `examples/cur.csv`.
-3. Draai `cur-top examples/cur.csv` voor de tekstuitvoer, of `--json` of `--md`.
-4. Lees de bedragen per dienst, gebruiksoort en tag: huidige maand, vorige maand en het verschil. Alle bedragen komen uit het bestand zelf; er is niets geschat.
-5. Een fout geeft exit 2 en één regel op standaardfout; lees "Exit codes" voor de rest.
+1. Install with `cargo install --locked --path .` (Rust 1.85 or newer).
+2. Take a CUR 2.0 file (`.csv` or `.csv.gz`), or use `examples/cur.csv`.
+3. Run `cur-top examples/cur.csv` for the text output, or `--json` or `--md`.
+4. Read the amounts per service, usage type and tag: current month, previous month and the difference. All amounts come from the file itself; nothing is estimated.
+5. An error gives exit 2 and one line on standard error; read "Exit codes" for the rest.
 
 ## Options
 
