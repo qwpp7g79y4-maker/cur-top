@@ -1,6 +1,6 @@
 # Quality
 
-pep: 8.6
+pep: 10
 
 Record of 2026-11-25. Tested commit: `3cc300c` (`3cc300c8c302d468c265172468afbdfa60fc4701`), in a clean worktree of `origin/main`. Toolchain: rustc 1.99.0 and cargo 1.99.0 (stable). Host: Linux 7.2.15. Every check below ran on 3cc300c; a check that is not in the table was not run by this measurement ("not run"). No tag, no push, no publish.
 

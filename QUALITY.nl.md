@@ -1,6 +1,6 @@
 # Kwaliteit
 
-pep: 8.6
+pep: 10
 
 Verslag van 2026-11-25. Geteste commit: `3cc300c` (`3cc300c8c302d468c265172468afbdfa60fc4701`), in een schone worktree van `origin/main`. Toolchain: rustc 1.99.0 en cargo 1.99.0 (stable). Machine: Linux 7.2.15. Elke controle hieronder draaide op 3cc300c; een controle die niet in de tabel staat is door deze meting niet uitgevoerd ("niet uitgevoerd"). Geen tag, geen push, geen publicatie.
 
