@@ -5,7 +5,9 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-11-19
+
+Changes made after 2026-11-19; the version number did not change.
 
 ### Added
 
@@ -26,7 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The README has the sections of the documentation standard, in the same order as `README.nl.md`. The test suite is 168 tests (counted on Linux: 168 passed, 1 ignored, 0 failed), measured after the last change. `QUALITY.md` names the tested commit and lists what was not run.
 - The stdout check in `src/stdout_probe.rs` is no longer the only `unsafe` code: the SIGINT handler in `src/interrupt.rs` is too. The library keeps `#![forbid(unsafe_code)]`.
 
-## [1.0.0] - 2026-11-19
 
 ### Changed
 
