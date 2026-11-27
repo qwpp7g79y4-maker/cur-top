@@ -140,7 +140,7 @@ Elke claim van `README.md` en `QUALITY.md`, met de test die hem bewijst. De test
 | L5 | Een bestand boven 536870912 uitgepakte bytes wordt geweigerd | `unpacked_size_limit_accepts_the_edge_and_rejects_one_byte_more` (cli) | getest |
 | L6 | De tabellen zijn geen voorspelling | none | gat |
 | L7 | De kwaliteitstest dekt een CSV van minstens 100 MiB | `quality_benchmark_100_mb` | test bestaat, genegeerd, niet in de reeks gedraaid |
-| L8 | Niet gepubliceerd, geen git-tag | `licenses_changelog_and_cargo_metadata` (the changelog says so only) | gat: de toestand van de repository is niet getest |
+| L8 | Geen git-tag | `licenses_changelog_and_cargo_metadata` (the changelog says so only) | gat: de toestand van de repository is niet getest |
 | L9 | Het gedocumenteerde testtotaal (README, dit bestand) | `documented_test_total_matches_real_count` (counts `#[test]` lines, does not run them) | getest |
 | L10 | Exitcode 0 goed, 2 invoer- of gebruiksfout | `usage_errors_exit_2`, `missing_file_exits_2`, `help_and_version_exit_0` (cli) | getest |
 | L11 | De publieke documenten, de broncode, de workflows en de scripts bevatten geen interne verwijzingen | `public_documents_hold_no_internal_references`, `source_workflows_and_scripts_hold_no_internal_references`, `the_patterns_catch_each_kind_of_reference` (`tests/docs_clean.rs`) | getest |

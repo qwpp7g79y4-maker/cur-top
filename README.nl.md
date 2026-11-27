@@ -18,7 +18,7 @@ Rust 1.85 of nieuwer.
 cargo install --locked --path .
 ```
 
-De crate is niet gepubliceerd en heeft geen git-tag. Releasearchieven voor Linux, Windows en macOS worden gebouwd door `.github/workflows/release.yml` zodra een `v*`-tag wordt gepusht; zo'n tag bestaat nog niet. De ondersteunde systemen staan onder Beperkingen (Systeemeisen).
+De crate heeft geen git-tag. Releasearchieven voor Linux, Windows en macOS worden gebouwd door `.github/workflows/release.yml` zodra een `v*`-tag wordt gepusht; zo'n tag bestaat nog niet. De ondersteunde systemen staan onder Beperkingen (Systeemeisen).
 
 ## Snelstart
 

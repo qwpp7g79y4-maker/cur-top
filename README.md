@@ -18,7 +18,7 @@ Rust 1.85 or newer.
 cargo install --locked --path .
 ```
 
-The crate is not published and has no git tag. Release archives for Linux, Windows, and macOS are built by `.github/workflows/release.yml` when a `v*` tag is pushed; no tag exists yet. Supported systems are listed under Limitations (System requirements).
+The crate has no git tag. Release archives for Linux, Windows, and macOS are built by `.github/workflows/release.yml` when a `v*` tag is pushed; no tag exists yet. Supported systems are listed under Limitations (System requirements).
 
 ## Quick start
 

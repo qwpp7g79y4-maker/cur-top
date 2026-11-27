@@ -140,7 +140,7 @@ Every claim of `README.md` and `QUALITY.md`, with the test that proves it. Test 
 | L5 | A file over 536870912 uncompressed bytes is rejected | `unpacked_size_limit_accepts_the_edge_and_rejects_one_byte_more` (cli) | tested |
 | L6 | The tables are not a forecast | none | gap |
 | L7 | The quality test covers a CSV of at least 100 MiB | `quality_benchmark_100_mb` | test exists, ignored, not run in the suite |
-| L8 | Not published, no git tag | `licenses_changelog_and_cargo_metadata` (the changelog says so only) | gap: the repository state is not tested |
+| L8 | No git tag | `licenses_changelog_and_cargo_metadata` (the changelog says so only) | gap: the repository state is not tested |
 | L9 | The documented test total (README, this file) | `documented_test_total_matches_real_count` (counts `#[test]` lines, does not run them) | tested |
 | L10 | Exit code 0 ok, 2 input or usage error | `usage_errors_exit_2`, `missing_file_exits_2`, `help_and_version_exit_0` (cli) | tested |
 | L11 | The public documents, the source, the workflows, and the scripts hold no internal references | `public_documents_hold_no_internal_references`, `source_workflows_and_scripts_hold_no_internal_references`, `the_patterns_catch_each_kind_of_reference` (`tests/docs_clean.rs`) | tested |

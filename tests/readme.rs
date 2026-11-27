@@ -110,7 +110,6 @@ fn install_uses_a_local_path() {
     let install = section(&readme, "## Installation");
     assert!(install.contains("cargo install --locked --path ."));
     assert!(install.contains("1.85"));
-    assert!(install.contains("not published"));
 }
 
 #[test]
@@ -225,7 +224,6 @@ fn licenses_changelog_and_cargo_metadata() {
     assert!(apache.contains("Copyright 2026 PEPAI"));
     let changelog = read("CHANGELOG.md");
     assert!(changelog.contains("## [0.1.0] - 2026-11-09"));
-    assert!(changelog.contains("not published"));
     assert!(changelog.contains("no git tag"));
     let cargo = read("Cargo.toml");
     assert!(cargo.contains("MIT OR Apache-2.0"));
